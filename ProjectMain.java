@@ -53,7 +53,12 @@ public class ProjectMain {
 				switch(alo) {
 				
 				case 'F':
-		          firstFit(processSize,pID);
+		          boolean done = firstFit(processSize,pID);
+				  if(done){
+					System.out.println("allocating process is completed")
+				  }
+				  else
+				  	System.out.println("allocating process is not completed")
 					break;
 				case 'B':
 					bestFit(processSize,pID);
@@ -96,9 +101,32 @@ public class ProjectMain {
 
 	}
 
-	public static boolean worstFit(int size,pId){
-		
+	public static worstFit(int size,pId){
+		boolean check=false;
+		int indexMax =-1;
+		int maxFrag=0;
+		for(int i=0;i<array.length; i++){
+			if(array[i].pSize>= size){
+				int frag=array[i].pSize-size;
+				if(frag>maxFrag){
+					maxFrag=frag;
+					indexMax=i;
+					check=true;
+				}
+			}
+		}
+		if(check){
+			array[indexMax].allocate(size,pId);
+			System.out.println("allocating process is completed");	
+		}
+		else
+			System.out.println("allocating process is not completed");
+
 	}
+
+		
+	
+	
 
 }//class
 //test commit
