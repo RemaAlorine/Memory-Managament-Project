@@ -1,4 +1,4 @@
-public class Process{
+public class Partition{
     public String pStatus;
     public int pSize;
     public int start;
@@ -7,7 +7,7 @@ public class Process{
     public int fSize;
 
 
-    public Process(int size,int sAddress,int eAddress){
+    public Partition(int size,int sAddress,int eAddress){
         pStatus="free";
         pSize=size;
         start=sAddress;
@@ -21,6 +21,15 @@ public class Process{
         ID=id;
         fSize=pSize-size;
     }
+
+
+    public void deallocate() {
+        pStatus="free";
+        ID="Null";
+        fSize=-1;
+       
+    }
+
 
 
 

@@ -1,4 +1,4 @@
-package projectOS;
+
 
 import java.util.Scanner;
 
@@ -9,11 +9,11 @@ public class ProjectMain {
 		Scanner read = new Scanner( System.in );
 		int M;
 		char alo;
-		Process array[];
+		Partition array[];
 		
 		System.out.println("Enter number of partitions: ");
 		M = read.nextInt();
-		array=new Process[M];
+		array=new Partition[M];
 
 		int start=0; //50
 		
@@ -22,7 +22,7 @@ public class ProjectMain {
 		int s = read.nextInt(); //50
 		int end= start+s-1; //49  74
 		//set size of partition here
-		array[i]=new Process(s,start,end);
+		array[i]=new Partition(s,start,end);
 		start=end+1; //75
 
 		}
@@ -55,22 +55,38 @@ public class ProjectMain {
 				case 'F':
 		          boolean done = firstFit(processSize,pID);
 				  if(done){
-					System.out.println("allocating process is completed")
+					System.out.println("allocating Partition is completed")
+					displayState();
 				  }
 				  else
-				  	System.out.println("allocating process is not completed")
+				  	System.out.println("allocating Partition is not completed")
 					break;
 				case 'B':
-					bestFit(processSize,pID);
+					bestFit(PartitionSize,pID);
 					break;
 				case 'W':
-					worstFit(processSize,pID);
+					worstFit(PartitionSize,pID);
 					break;
 				}//switch
 
 				break;
 			case 2:
 				//de-allocating method
+				System.out.println("enter process ID");
+				String pID=read.next();
+				boolean check=false;
+				for(int i=0;i<array.length; i++){
+			      if(array[i].ID.equals(pID)){
+					array[i].deallocate();
+					check=true;
+					System.out.println("Process deallocated successfully");
+				  }
+				}
+				if(check)
+				displayState();
+				else
+				System.out.println("error , can't deallocate process");
+
 				break;
 			case 3:
 				//reporting method
@@ -86,7 +102,7 @@ public class ProjectMain {
 	public static boolean firstFit(int size,pId){
 		boolean check=false;
 		for(int i=0;i<array.length; i++){
-			if(array[i].pSize>= size){
+			if(array[i].pStatus.equals("free") && array[i].pSize>= size){
 				array[i].allocate(size,pId);
 				check=true;
                 return check;
@@ -98,6 +114,26 @@ public class ProjectMain {
 	}
 
 	public static boolean bestFit(int size,pId){
+		boolean check=false;
+		int indexMin =-1;
+		int minFrag=0;
+		for(int i=0;i<array.length; i++){
+			if(array[i].pStatus.equals("free") && array[i].pSize>= size){
+				int frag=array[i].pSize-size;
+				if(frag<minFrag){
+					minFrag=frag;
+					indexMin=i;
+					check=true;
+				}
+			}
+		}
+		if(check){
+			array[indexMin].allocate(size,pId);
+			System.out.println("allocating Partition is completed");	
+			displayState();
+		}
+		else
+			System.out.println("allocating Partition is not completed");
 
 	}
 
@@ -106,7 +142,7 @@ public class ProjectMain {
 		int indexMax =-1;
 		int maxFrag=0;
 		for(int i=0;i<array.length; i++){
-			if(array[i].pSize>= size){
+			if(array[i].pStatus.equals("free") && array[i].pSize>= size){
 				int frag=array[i].pSize-size;
 				if(frag>maxFrag){
 					maxFrag=frag;
@@ -117,17 +153,38 @@ public class ProjectMain {
 		}
 		if(check){
 			array[indexMax].allocate(size,pId);
-			System.out.println("allocating process is completed");	
+			System.out.println("allocating Partition is completed");	
+			displayState();
 		}
 		else
-			System.out.println("allocating process is not completed");
+			System.out.println("allocating Partition is not completed");
 
 	}
+
+	public static displayState(){
+		String state="[";
+		for(int i=0;i<array.length; i++){
+			if(!array[i].ID.equals("Null"))
+			state=state+array[i].ID +" ";
+			else
+			state=state+"H ";
+			if(i+1 >=array.length)
+			state+="]"
+			else
+			state+="| "
+
+
+		}
+		System.out.println("Memory State:\n" + state);	
+		}
+	}
+
+
 
 		
 	
 	
 
-}//class
+//class
 //test commit
 //testttt
