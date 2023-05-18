@@ -23,7 +23,7 @@ public class ProjectMain {
 		int end= start+s-1; //49  74
 		//set size of partition here
 		array[i]=new Partition(s,start,end);
-		start=end+1; //75
+		start=end+1; 
 
 		}
 		

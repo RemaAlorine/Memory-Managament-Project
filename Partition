@@ -14,6 +14,7 @@ public class Partition{
         end=eAddress;
         ID="Null";
         fSize=-1;
+        
     }
 
     public allocate(int size,String id){
